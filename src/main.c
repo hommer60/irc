@@ -30,9 +30,6 @@ typedef struct {
 
 irc_message* split_message(char* string)
 {
-    if(nick != NULL){
-        printf("%s", nick);
-    }
     irc_message *msg = (irc_message*)malloc(sizeof(irc_message));
     char* tmp = NULL;
     char** stringList = (char**)malloc(2 * sizeof(char*));
