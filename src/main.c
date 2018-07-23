@@ -28,9 +28,8 @@ typedef struct {
 } irc_message;
 
 
-irc_message* split_message(char* string, char* nick)
+irc_message* split_message(char* string)
 {
-    printf("NICK BEFORE\n");
     if(nick != NULL){
         printf("%s", nick);
     }
@@ -45,7 +44,6 @@ irc_message* split_message(char* string, char* nick)
     int i = 0;
     while(tmp != NULL)
     {
-        printf("i = %d and tmp = %s", i, tmp);
         stringList[i] = strdup(tmp);
         i++;
         tmp = strtok(NULL, ":");
@@ -75,19 +73,17 @@ irc_message* split_message(char* string, char* nick)
     free(stringList[1]);
     free(stringList);
 
-    printf("NICK AFTER\n");
-    printf("%s", nick);
     return msg;
 }
 
-void fill_msg(char str[], char* nick, struct sockaddr_in server, struct sockaddr_in client)
+void fill_msg(char str[], char* nick, struct sockaddr_in server, struct sockaddr_in client, char* user_nick)
 {
     char servAdr[INET_ADDRSTRLEN];
     char cliAdr[INET_ADDRSTRLEN];
 
     inet_ntop(AF_INET, &(server.sin_addr), servAdr, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, &(client.sin_addr), cliAdr, INET_ADDRSTRLEN);
-    sprintf(str, ":%s 001 %s :Welcome to the Internet Relay Network %s!%s@%s\r\n", servAdr, nick, nick, nick, cliAdr);
+    sprintf(str, ":%s 001 %s :Welcome to the Internet Relay Network %s!%s@%s\r\n", servAdr, nick, nick, user_nick, cliAdr);
     return;
 
 }
@@ -216,8 +212,7 @@ int main(int argc, char *argv[])
             close(clientSocket);
             exit(-1);
         }
-        msg = split_message(str, nick);
-        printf("HERE AND MESSAGE : %s\n", msg->message);
+        msg = split_message(str);
         memset(str, 0, 512);
         if(msg->args != NULL)
         {
@@ -230,8 +225,6 @@ int main(int argc, char *argv[])
                 if(strcmp(args[0], "NICK") == 0)
                 {
                     nick = strdup(args[1]);
-                    printf("::NAME IS ::%s", nick);
-                    printf("::LENGTH IS ::%d", strlen(nick));
                     nick[strlen(nick) - 2] = '\0';
                     recv_nick = 1;
 
@@ -241,18 +234,10 @@ int main(int argc, char *argv[])
                     if(msg->message != NULL)
                     {
                         name = strdup(msg->message);
-                        printf("OOMAMR");
-                        fill_msg(str, nick, serverAddr, clientAddr);
-                        printf("BUT GETTING HERE");
-                        printf("message is %s", msg->message);
-                        fflush(stdout);
+                        fill_msg(str, nick, serverAddr, clientAddr, args[1]);
                         if((msg->message[strlen(msg->message) -2] == '\r') && (msg->message[strlen(msg->message) - 1] == '\n'))
                         {
-                            printf("NOT GETTING HERE");
-                            fflush(stdout);
                             if(recv_nick == 1){
-                                printf("SENDING");
-                                fflush(stdout);
                                 if(send(clientSocket, str, strlen(str), 0) <= 0)
                                 {
                                     perror("Socket send() failed");
@@ -273,7 +258,7 @@ int main(int argc, char *argv[])
 
 
     close(clientSocket);
-    fprintf(stderr, "Message sendt!\n");
+    fprintf(stderr, "Message sent!\n");
     close(serverSocket);
     return 0;
 }
