@@ -1,0 +1,7 @@
+gcc -g3 -Wall -fpic -std=gnu99 -MMD -MP   -c -o src/main.o src/main.c
+src/main.c: In function ‘main’:
+src/main.c:16:11: warning: variable ‘port’ set but not used [-Wunused-but-set-variable]
+     char *port = "6667", *passwd = NULL;
+           ^
+gcc -g3 -Wall -fpic -std=gnu99 -MMD -MP   -c -o src/log.o src/log.c
+gcc  -pthread src/main.o src/log.o -o./chirc
