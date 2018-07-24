@@ -15,76 +15,221 @@
 
 #include "log.h"
 
-
 typedef struct {
-    char nick[50];
-    char name[100];
-    struct user* next;
-} user;
-
-typedef struct {
-    char** args;
-    char* message;
+    char* command;
+    char** params;
+    char* payload;
 } irc_message;
 
+typedef struct {
+    irc_message** messages;
+    int num_messages;
+} irc_wrapper;
 
-irc_message* split_message(char* string)
+typedef struct {
+    char* nick;
+    char* user_nick;
+} state;
+
+char* strtok_r(
+    char *str, 
+    const char *delim, 
+    char **nextp)
 {
-    irc_message *msg = (irc_message*)malloc(sizeof(irc_message));
-    char* tmp = NULL;
-    char** stringList = (char**)malloc(2 * sizeof(char*));
-    for(int i = 0; i < 2; i++)
+    char *ret;
+    if (str == NULL)
     {
-        stringList[i] = NULL;
+        str = *nextp;
     }
-    tmp = strtok(string, ":");
-    int i = 0;
-    while(tmp != NULL)
-    {
-        stringList[i] = strdup(tmp);
-        i++;
-        tmp = strtok(NULL, ":");
-    }
-    char** args = (char**)malloc(4*sizeof(char*));
-    char* first_part = stringList[0];
-    tmp = NULL;
-    for(int i = 0; i < 4; i++)
-    {
-        args[i] = NULL;
-    }
-    tmp = strtok(first_part, " ");
-    i = 0;
-    while(tmp != NULL)
-    {
-        args[i] = strdup(tmp);
-        i++;
-        tmp = strtok(NULL, " ");
-    }
-    msg->args = args;
-    if(stringList[1] != NULL)
-        msg->message = strdup(stringList[1]);
-    // free(stringList[0]);
-    // free(stringList[1]);
-    free(tmp);
-    free(stringList[0]);
-    free(stringList[1]);
-    free(stringList);
 
-    return msg;
+    str += strspn(str, delim);
+    if (*str == '\0')
+    {
+        return NULL;
+    }
+
+    ret = str;
+    str += strcspn(str, delim);
+
+    if (*str)
+    {
+        *str++ = '\0';
+    }
+    *nextp = str;
+    return ret;
 }
 
-void fill_msg(char str[], char* nick, struct sockaddr_in server, struct sockaddr_in client, char* user_nick)
+int numFullMessages(char* string)
+{
+    int numFullMessages = 0;
+    for(int j = 0; j < strlen(string) - 1; j++)
+    {
+        if(string[j] == '\r' && string[j + 1] == '\n')
+        {
+            numFullMessages++;
+        }
+    }
+    return numFullMessages;
+}
+
+irc_message* parse_message(char *string)
+{
+    irc_message* irc = (irc_message*)malloc(sizeof(irc_message));
+    char* args = NULL;
+    char* cmd = NULL;
+    char* payload = NULL;
+    char* tmp = NULL;
+    char* idk;
+    char* idk1;
+    tmp = strtok(string, ":");
+    args = strdup(tmp);
+    tmp = strtok(NULL, ":");
+    if(tmp != NULL){
+        payload = strdup(tmp);
+        payload = strtok(payload, "\r\n");
+    }
+    tmp = NULL;
+    tmp = strtok(args, " ");
+    cmd = strdup(tmp);
+    char** params = (char**)malloc(sizeof(char*)*3);
+    for(int i = 0; i < 3; i++){
+        params[i] = NULL;
+    }
+    int counter = 0;
+    tmp = strtok(NULL, " ");
+    while(tmp != NULL){
+        params[counter] = strdup(tmp);
+        counter++;
+        tmp = strtok(NULL, " ");
+    }
+
+    irc->command = cmd;
+    irc->payload = payload;
+    irc->params = params;
+    return irc;
+}
+
+irc_wrapper* parse_messages(char *string, char *buffer)
+{
+    char* tmp = NULL;
+    char* tmp_buf;
+    int numMessages = numFullMessages(string);
+    int starting_null = 0;
+    irc_message** messages = NULL;
+    if(numFullMessages > 0)
+        messages = (irc_message**)malloc(sizeof(irc_message*)*numMessages);
+    if(strlen(buffer) > 1){
+        //incomplete message, fill up buffer
+        
+        //incoming message starts with null character
+        if(strlen(string) >= 2 && string[0] == '\r' && string[1] == '\n'){
+            starting_null = 1;
+            strcat(buffer, "\r\n");
+        }
+        else{
+            tmp = strtok_r(string, "\r\n", &tmp_buf);
+            strcat(buffer, strdup(tmp));
+        }
+        if(numFullMessages == 0)
+            return messages;
+        messages[0] = parse_message(buffer);
+        //flush buffer
+        memset(buffer, 0, 512);
+        int i = 1;
+        while(i < numMessages){
+            if(starting_null == 1){
+                tmp = strtok_r(string, "\r\n", &tmp_buf);
+                starting_null = 0;
+            }
+            else
+                tmp = strtok_r(NULL, "\r\n", &tmp_buf);
+            messages[i] = parse_message(tmp);
+            i++;
+        }
+        if(tmp)
+            strcat(buffer, strdup(tmp));
+    }
+    else{
+        tmp = strtok_r(string, "\r\n", &tmp_buf);
+        int i = 0;
+        while(i < numMessages){
+            messages[i] = parse_message(tmp);
+            i++;
+            tmp = strtok_r(NULL, "\r\n", &tmp_buf);
+        }
+        if(tmp)
+            strcat(buffer, strdup(tmp));
+    }
+    //free(tmp);
+    //free(tmp_buf);
+    irc_wrapper* iw = (irc_wrapper*)malloc(sizeof(irc_wrapper));
+    iw->messages = messages;
+    iw->num_messages = numFullMessages;
+    return iw;
+}
+
+void fill_msg(char* outgoing_msg, state* s, struct sockaddr_in server, struct sockaddr_in client)
 {
     char servAdr[INET_ADDRSTRLEN];
     char cliAdr[INET_ADDRSTRLEN];
-
     inet_ntop(AF_INET, &(server.sin_addr), servAdr, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, &(client.sin_addr), cliAdr, INET_ADDRSTRLEN);
-    sprintf(str, ":%s 001 %s :Welcome to the Internet Relay Network %s!%s@%s\r\n", servAdr, nick, nick, user_nick, cliAdr);
+    sprintf(outgoing_msg, ":%s 001 %s :Welcome to the Internet Relay Network %s!%s@%s\r\n", servAdr, s->nick, s->nick, s->user_nick, cliAdr);
     return;
-
 }
 
+int ready_state(state* s)
+{
+    if(s->nick != NULL && s-> user_nick != NULL){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+void free_irc_message(irc_message *)
+{
+    free(irc_message->command);
+    free(irc_message->payload);
+    for(int i = 0; i < 3; i++){
+        free(irc_message->params[i]);
+    }
+    free(irc_message);
+    return;
+}
+
+void free_irc_wrapper(irc_wrapper* iw)
+{
+    for(int i = 0; i < iw->num_messages; i++)
+    {
+        free_irc_message(iw->messages[i]);
+    }
+    free(iw->messages);
+    free(iw);
+    return
+}
+
+void process_messages(irc_wrapper* iw, state* current_state)
+{
+    char new_nick[512];
+    char new_user_nick[512];
+
+    for(int i = 0; i < iw->num_messages; i++)
+    {
+        irc_message* msg = iw->messages[i];
+        if(strcmp(msg->command,"NICK") == 0){
+            memset(new_nick, 0, 512);
+            strcpy(new_nick, msg->params[0]);
+            current_state->nick = new_nick;
+        }
+        else if(strcmp(msg->command, "USER") == 0){
+            memset(new_user_nick, 0, 512);
+            strcpy(new_user_nick, msg->params[0]);
+            current_state->user_nick = new_user_nick;
+        }
+    }
+}
 int main(int argc, char *argv[])
 {
     int opt;
@@ -194,14 +339,17 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-    char str[512];
-    char* nick = NULL;
-    char* name = NULL;
-    irc_message* msg = NULL;
-    int recv_nick = 0;
+    char incoming_msg[512];
+    char buffer[512];
+    irc_wrapper iw = NULL;
+    state* current_state = (state *)malloc(sizeof(state));
+    current_state->nick = NULL;
+    current_state->user_nick = NULL:
+
     while(1){
 
-        memset(str, 0, 512);
+        iw = NULL;
+        memset(incoming_msg, 0, 512);
         if(read(clientSocket, str, 512) <= 0)
         {
             perror("Socket recv() failed");
@@ -209,48 +357,21 @@ int main(int argc, char *argv[])
             close(clientSocket);
             exit(-1);
         }
-        msg = split_message(str);
-        memset(str, 0, 512);
-        if(msg->args != NULL)
-        {
-            if(nick != NULL){
-                printf("the name is : %s\n", nick);
-            }
-            char** args = msg->args;
-            if(args[0] != NULL)
-            {
-                if(strcmp(args[0], "NICK") == 0)
+        iw = parse_messages(incoming_msg, buffer);
+        if(iw != NULL){
+            memset(incoming_msg, 0, 512);
+            process_messages(iw, current_state);
+            if(ready_state(current_state) == 1){
+                fill_msg(incoming_msg, current_state, serverAddr, clientAddr);
+                if(send(clientSocket, incoming_msg, strlen(incoming_msg), 0) <= 0)
                 {
-                    nick = strdup(args[1]);
-                    nick[strlen(nick) - 2] = '\0';
-                    recv_nick = 1;
-
-                }
-                else if(strcmp(args[0], "USER") == 0)
-                {
-                    if(msg->message != NULL)
-                    {
-                        name = strdup(msg->message);
-                        fill_msg(str, nick, serverAddr, clientAddr, args[1]);
-                        if((msg->message[strlen(msg->message) -2] == '\r') && (msg->message[strlen(msg->message) - 1] == '\n'))
-                        {
-                            if(recv_nick == 1){
-                                if(send(clientSocket, str, strlen(str), 0) <= 0)
-                                {
-                                    perror("Socket send() failed");
-                                    close(serverSocket);
-                                    close(clientSocket);
-                                    exit(-1);
-                                }
-                            }
-                        }
-                    }
+                    perror("Socket send() failed");
+                    close(serverSocket);
+                    close(clientSocket);
+                    exit(-1);
                 }
             }
         }
-        free(msg);
-        msg = NULL;
-
     }
 
 
