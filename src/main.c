@@ -112,6 +112,7 @@ irc_wrapper* parse_messages(char *string, char *buffer)
     char* tmp = NULL;
     char* tmp_buf;
     int numMessages = numFullMessages(string);
+    printf("NUM FULL MESSAGES = %d\n", numMessages);
     int starting_null = 0;
     irc_message** messages = NULL;
     if(numFullMessages > 0)
@@ -380,6 +381,7 @@ int main(int argc, char *argv[])
 
     char incoming_msg[512];
     char buffer[512];
+    memset(buffer, 0, 512);
     irc_wrapper* iw = NULL;
     state* current_state = (state *)malloc(sizeof(state));
     current_state->nick = NULL;
@@ -387,6 +389,7 @@ int main(int argc, char *argv[])
 
     while(1){
 
+        printf("CUR BUFFER = %s\n", buffer);
         iw = NULL;
         memset(incoming_msg, 0, 512);
         if(read(clientSocket, incoming_msg, 512) <= 0)
@@ -396,6 +399,11 @@ int main(int argc, char *argv[])
             close(clientSocket);
             exit(-1);
         }
+        // int end = strlen(incoming_msg);
+        // printf("end size is %d\n", end);
+        // if(end > 1)
+        //     incoming_msg[end-2] = '\0';
+        // incoming_msg[end-2] = '\0';
         iw = parse_messages(incoming_msg, buffer);
         print_irc_wrapper(iw);
         if(iw != NULL){
