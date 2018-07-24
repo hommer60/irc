@@ -172,6 +172,9 @@ void fill_msg(char* outgoing_msg, state* s, struct sockaddr_in server, struct so
     char cliAdr[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, &(server.sin_addr), servAdr, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, &(client.sin_addr), cliAdr, INET_ADDRSTRLEN);
+    printf("IN FILL MESG\n");
+    printf("outgoing msg should be empty... it is %s\n", outgoing_msg);
+    printf("NICK: %s, USER NICK: %s\n", s->nick, s->user_nick);
     sprintf(outgoing_msg, ":%s 001 %s :Welcome to the Internet Relay Network %s!%s@%s\r\n", servAdr, s->nick, s->nick, s->user_nick, cliAdr);
     return;
 }
@@ -210,21 +213,26 @@ void free_irc_wrapper(irc_wrapper* iw)
 
 void process_messages(irc_wrapper* iw, state* current_state)
 {
-    char new_nick[512];
-    char new_user_nick[512];
+    // char new_nick[512];
+    // char new_user_nick[512];
+    int found_nick = 0;
+    int found_user_nick = 0;
 
-    for(int i = 0; i < iw->num_messages; i++)
+    for(int i = iw->num_messages - 1; i >= 0; i--)
     {
         irc_message* msg = iw->messages[i];
-        if(strcmp(msg->command,"NICK") == 0){
-            memset(new_nick, 0, 512);
-            strcpy(new_nick, msg->params[0]);
-            current_state->nick = new_nick;
+        if(found_nick == 1 && found_user_nick == 1){
+            break;
         }
-        else if(strcmp(msg->command, "USER") == 0){
-            memset(new_user_nick, 0, 512);
-            strcpy(new_user_nick, msg->params[0]);
-            current_state->user_nick = new_user_nick;
+        else if((strcmp(msg->command,"NICK") == 0) && found_nick == 0){
+            free(current_state->nick);
+            current_state->nick = strdup(msg->params[0]);
+            found_nick = 1;
+        }
+        else if((strcmp(msg->command, "USER") == 0) && found_user_nick == 0){
+            free(current_state->user_nick);
+            current_state->user_nick = strdup(msg->params[0]);
+            found_user_nick = 1;
         }
     }
 }
@@ -389,6 +397,7 @@ int main(int argc, char *argv[])
             exit(-1);
         }
         iw = parse_messages(incoming_msg, buffer);
+        print_irc_wrapper(iw);
         if(iw != NULL){
             memset(incoming_msg, 0, 512);
             process_messages(iw, current_state);
@@ -404,6 +413,8 @@ int main(int argc, char *argv[])
                 }
             }
         }
+
+        free_irc_wrapper(iw);
     }
 
 
