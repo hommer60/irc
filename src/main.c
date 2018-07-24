@@ -79,8 +79,6 @@ irc_message* parse_message(char *string)
     char* cmd = NULL;
     char* payload = NULL;
     char* tmp = NULL;
-    char* idk;
-    char* idk1;
     tmp = strtok(string, ":");
     args = strdup(tmp);
     tmp = strtok(NULL, ":");
@@ -130,8 +128,8 @@ irc_wrapper* parse_messages(char *string, char *buffer)
             tmp = strtok_r(string, "\r\n", &tmp_buf);
             strcat(buffer, strdup(tmp));
         }
-        if(numFullMessages == 0)
-            return messages;
+        if(numMessages == 0)
+            return NULL;
         messages[0] = parse_message(buffer);
         //flush buffer
         memset(buffer, 0, 512);
@@ -164,7 +162,7 @@ irc_wrapper* parse_messages(char *string, char *buffer)
     //free(tmp_buf);
     irc_wrapper* iw = (irc_wrapper*)malloc(sizeof(irc_wrapper));
     iw->messages = messages;
-    iw->num_messages = numFullMessages;
+    iw->num_messages = numMessages;
     return iw;
 }
 
@@ -188,14 +186,14 @@ int ready_state(state* s)
     }
 }
 
-void free_irc_message(irc_message *)
+void free_irc_message(irc_message* msg)
 {
-    free(irc_message->command);
-    free(irc_message->payload);
+    free(msg->command);
+    free(msg->payload);
     for(int i = 0; i < 3; i++){
-        free(irc_message->params[i]);
+        free(msg->params[i]);
     }
-    free(irc_message);
+    free(msg);
     return;
 }
 
@@ -207,7 +205,7 @@ void free_irc_wrapper(irc_wrapper* iw)
     }
     free(iw->messages);
     free(iw);
-    return
+    return;
 }
 
 void process_messages(irc_wrapper* iw, state* current_state)
@@ -230,6 +228,15 @@ void process_messages(irc_wrapper* iw, state* current_state)
         }
     }
 }
+
+
+void print_state(state* s)
+{
+    printf("CURRENT NICK: %s\n", s->nick);
+    printf("CURRENT USER NICK: %s\n", s->user_nick);
+    return;
+}
+
 int main(int argc, char *argv[])
 {
     int opt;
@@ -341,16 +348,16 @@ int main(int argc, char *argv[])
 
     char incoming_msg[512];
     char buffer[512];
-    irc_wrapper iw = NULL;
+    irc_wrapper* iw = NULL;
     state* current_state = (state *)malloc(sizeof(state));
     current_state->nick = NULL;
-    current_state->user_nick = NULL:
+    current_state->user_nick = NULL;
 
     while(1){
 
         iw = NULL;
         memset(incoming_msg, 0, 512);
-        if(read(clientSocket, str, 512) <= 0)
+        if(read(clientSocket, incoming_msg, 512) <= 0)
         {
             perror("Socket recv() failed");
             close(serverSocket);
@@ -361,6 +368,7 @@ int main(int argc, char *argv[])
         if(iw != NULL){
             memset(incoming_msg, 0, 512);
             process_messages(iw, current_state);
+            print_state(current_state);
             if(ready_state(current_state) == 1){
                 fill_msg(incoming_msg, current_state, serverAddr, clientAddr);
                 if(send(clientSocket, incoming_msg, strlen(incoming_msg), 0) <= 0)
