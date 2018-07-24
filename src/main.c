@@ -236,6 +236,30 @@ void print_state(state* s)
     printf("CURRENT USER NICK: %s\n", s->user_nick);
     return;
 }
+void print_msg(irc_message* msg)
+{
+    if(msg->command)
+        printf("Command = %s\n", msg->command);
+    if(msg->payload)
+        printf("Payload = %s\n", msg->payload);
+    for(int i = 0; i < 3; i++){
+        printf("Arg %d = %s\n", i, msg->params[i]);
+    }
+}
+
+void print_irc(irc_message** messages, int numMessages)
+{
+    for(int i = 0; i < numMessages; i++){
+        print_msg(messages[i]);
+    }
+    return;
+}
+
+void print_irc_wrapper(irc_wrapper* iw)
+{
+    printf("NUM MESSAGES: %d\n", iw->num_messages);
+    print_irc(iw->messages, iw->num_messages);
+}
 
 int main(int argc, char *argv[])
 {
