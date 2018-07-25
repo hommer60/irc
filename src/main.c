@@ -130,7 +130,7 @@ irc_wrapper* parse_messages(char *string, char *buffer)
         //incomplete message, fill up buffer
         
         //incoming message starts with null character
-        if(strlen(string) == 2 && string[0] == '\r' && string[1] == '\n'){
+        if(strlen(string) >= 2 && string[0] == '\r' && string[1] == '\n'){
             starting_null = 1;
             if(strlen(string) == 2)
                 at_end = 1;

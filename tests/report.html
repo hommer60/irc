@@ -228,12 +228,12 @@ function filter_table(elem) {
     not_found_message.hidden = !all_rows_hidden;
 }
 </script>
-    <p>Report generated on 25-Jul-2018 at 16:33:41 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.16.0</p>
+    <p>Report generated on 25-Jul-2018 at 16:41:19 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.16.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
         <td>Packages</td>
-        <td>{&apos;pluggy&apos;: &apos;0.4.0&apos;, &apos;pytest&apos;: &apos;3.1.2&apos;, &apos;py&apos;: &apos;1.4.34&apos;}</td></tr>
+        <td>{&apos;pytest&apos;: &apos;3.1.2&apos;, &apos;pluggy&apos;: &apos;0.4.0&apos;, &apos;py&apos;: &apos;1.4.34&apos;}</td></tr>
       <tr>
         <td>Platform</td>
         <td>Linux-4.4.0-93-generic-x86_64-with-Ubuntu-16.04-xenial</td></tr>
@@ -244,8 +244,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.5.2</td></tr></table>
     <h2>Summary</h2>
-    <p>22 tests ran in 6.62 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">21 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">202 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">5 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>22 tests ran in 6.70 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">22 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">202 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">9 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -264,7 +264,7 @@ function filter_table(elem) {
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdc0e1cc0&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d437c50&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
 NUM FULL MESSAGES = 1
 NUM MESSAGES: 1
 Command = NICK
@@ -297,7 +297,7 @@ CUR BUFFER =
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdbe9dc88&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d1f5be0&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
 NUM FULL MESSAGES = 1
 NUM MESSAGES: 1
 Command = NICK
@@ -325,12 +325,178 @@ CUR BUFFER =
       <tbody class="error results-table-row">
         <tr>
           <td class="col-result">Error</td>
+          <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages1::teardown</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d4a2390&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 0
+CURRENT NICK: (null)
+CURRENT USER NICK: (null)
+CUR BUFFER = NICK 
+NUM FULL MESSAGES = 2
+NUM MESSAGES: 2
+Command = NICK
+Arg 0 = user1
+Arg 1 = (null)
+Arg 2 = (null)
+Command = USER
+Payload = User One
+Arg 0 = user1
+Arg 1 = *
+Arg 2 = *
+CURRENT NICK: user1
+CURRENT USER NICK: user1
+IN FILL MESG
+outgoing msg should be empty... it is 
+NICK: user1, USER NICK: user1
+CUR BUFFER = 
+--------------------------- Captured stderr teardown ---------------------------<br/>Socket recv() failed: Success
+</div></td></tr></tbody>
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages7::teardown</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d4a8208&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 0
+CURRENT NICK: (null)
+CURRENT USER NICK: (null)
+CUR BUFFER = NI
+NUM FULL MESSAGES = 0
+CUR BUFFER = NICK 
+NUM FULL MESSAGES = 0
+CUR BUFFER = NICK user1
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 1
+Command = NICK
+Arg 0 = user1
+Arg 1 = (null)
+Arg 2 = (null)
+CURRENT NICK: user1
+CURRENT USER NICK: (null)
+CUR BUFFER = 
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 0
+CURRENT NICK: user1
+CURRENT USER NICK: (null)
+CUR BUFFER = USER user
+NUM FULL MESSAGES = 0
+CUR BUFFER = USER user1 * * 
+NUM FULL MESSAGES = 0
+CUR BUFFER = USER user1 * * :Us
+NUM FULL MESSAGES = 0
+CUR BUFFER = USER user1 * * :User 
+NUM FULL MESSAGES = 0
+CUR BUFFER = USER user1 * * :User One
+NUM FULL MESSAGES = 0
+CUR BUFFER = USER user1 * * :User One
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 1
+Command = USER
+Payload = User One
+Arg 0 = user1
+Arg 1 = *
+Arg 2 = *
+CURRENT NICK: user1
+CURRENT USER NICK: user1
+IN FILL MESG
+outgoing msg should be empty... it is 
+NICK: user1, USER NICK: user1
+CUR BUFFER = 
+--------------------------- Captured stderr teardown ---------------------------<br/>Socket recv() failed: Success
+</div></td></tr></tbody>
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing1::teardown</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d46b780&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+NUM FULL MESSAGES = 1
+NUM MESSAGES: 1
+Command = NICK
+Arg 0 = nick42
+Arg 1 = (null)
+Arg 2 = (null)
+CURRENT NICK: nick42
+CURRENT USER NICK: (null)
+CUR BUFFER = 
+NUM FULL MESSAGES = 1
+NUM MESSAGES: 1
+Command = USER
+Payload = User Forty Two
+Arg 0 = user42
+Arg 1 = *
+Arg 2 = *
+CURRENT NICK: nick42
+CURRENT USER NICK: user42
+IN FILL MESG
+outgoing msg should be empty... it is 
+NICK: nick42, USER NICK: user42
+CUR BUFFER = 
+--------------------------- Captured stderr teardown ---------------------------<br/>Socket recv() failed: Success
+</div></td></tr></tbody>
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
+          <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing2::teardown</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d46b550&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 0
+CURRENT NICK: (null)
+CURRENT USER NICK: (null)
+CUR BUFFER = NICK nick4
+NUM FULL MESSAGES = 1
+NUM MESSAGES: 1
+Command = NICK
+Arg 0 = nick42
+Arg 1 = (null)
+Arg 2 = (null)
+CURRENT NICK: nick42
+CURRENT USER NICK: (null)
+CUR BUFFER = 
+NUM FULL MESSAGES = 0
+NUM MESSAGES: 0
+CURRENT NICK: nick42
+CURRENT USER NICK: (null)
+CUR BUFFER = USER user4
+NUM FULL MESSAGES = 1
+NUM MESSAGES: 1
+Command = USER
+Payload = User Forty Two
+Arg 0 = user42
+Arg 1 = *
+Arg 2 = *
+CURRENT NICK: nick42
+CURRENT USER NICK: user42
+IN FILL MESG
+outgoing msg should be empty... it is 
+NICK: nick42, USER NICK: user42
+CUR BUFFER = 
+--------------------------- Captured stderr teardown ---------------------------<br/>Socket recv() failed: Success
+</div></td></tr></tbody>
+      <tbody class="error results-table-row">
+        <tr>
+          <td class="col-result">Error</td>
           <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing3::teardown</td>
           <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdc0d8a20&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d208be0&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
 NUM FULL MESSAGES = 0
 NUM MESSAGES: 0
 CURRENT NICK: (null)
@@ -385,7 +551,7 @@ CUR BUFFER =
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdbd81630&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d1cccc0&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
 NUM FULL MESSAGES = 1
 NUM MESSAGES: 1
 Command = NICK
@@ -445,7 +611,7 @@ CUR BUFFER =
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdbeab390&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
+            <div class="log">def fin():<br/>&gt;       session.end_session()<br/><br/>tests/conftest.py:32: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f3a7d18d860&gt;<br/><br/>    def end_session(self):<br/>        for c in self.clients:<br/>            self.disconnect_client(c)<br/>        rc = self.chirc_proc.poll()<br/>        if rc is not None:<br/>            if rc != 0:<br/>                shutil.rmtree(self.tmpdir)<br/>&gt;               pytest.fail(&quot;chirc process failed during test. rc = %i&quot; % rc)<br/><span class="error">E               Failed: chirc process failed during test. rc = 255</span><br/><br/>tests/chirc/tests/common.py:112: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... --------------------------- Captured stdout teardown ---------------------------<br/>CUR BUFFER = 
 NUM FULL MESSAGES = 1
 NUM MESSAGES: 1
 Command = USER
@@ -500,15 +666,6 @@ NICK: nick42, USER NICK: user42
 CUR BUFFER = 
 --------------------------- Captured stderr teardown ---------------------------<br/>Socket recv() failed: Success
 </div></td></tr></tbody>
-      <tbody class="failed results-table-row">
-        <tr>
-          <td class="col-result">Failed</td>
-          <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages3</td>
-          <td class="col-duration">0.20</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdc0dc978&gt;<br/>client = &lt;chirc.client.ChircClient object at 0x7f1fdc4b2550&gt;<br/>expect_code = &#x27;001&#x27;, expect_nick = &#x27;user1&#x27;, expect_nparams = 1<br/>expect_short_params = None, long_param_re = None, long_param_values = None<br/>expect_timeout = False<br/><br/>    def get_reply(self, client, expect_code = None, expect_nick = None, expect_nparams = None,<br/>                  expect_short_params = None, long_param_re = None, long_param_values = None,<br/>                  expect_timeout = False):<br/>        try:<br/>&gt;           msg = client.get_message()<br/><br/>tests/chirc/tests/common.py:340: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.client.ChircClient object at 0x7f1fdc4b2550&gt;<br/><br/>    def get_message(self):<br/>        msg = self.client.read_until(str.encode(&quot;\r\n&quot;), timeout=self.msg_timeout)<br/>        msg = msg.decode()<br/>        if msg[-2:] != &quot;\r\n&quot;:<br/>&gt;           raise ReplyTimeoutException(msg)<br/><span class="error">E           chirc.types.ReplyTimeoutException</span><br/><br/>tests/chirc/client.py:37: ReplyTimeoutException<br/><br/>During handling of the above exception, another exception occurred:<br/><br/>self = &lt;chirc.tests.test_connection.TestBasicConnection object at 0x7f1fdc0dcba8&gt;<br/>irc_session = &lt;chirc.tests.common.IRCSession object at 0x7f1fdc0dc978&gt;<br/><br/>    def test_connect_partitioned_messages3(self, irc_session):<br/>        &quot;&quot;&quot;<br/>            Sends a NICK and USER command, but partitioned at a point other than<br/>            at the \r\n terminator.<br/>    <br/>            Note: TCP will sometimes do whatever TCP wants, which means this message<br/>            could get partitioned in other ways.<br/>            &quot;&quot;&quot;<br/>    <br/>        client = irc_session.get_client(nodelay = True)<br/>    <br/>        client.send_raw([&quot;NICK user1&quot;,<br/>                         &quot;\r\nUSER user1 * * :User One\r\n&quot;],<br/>                        wait=0.05)<br/>    <br/>&gt;       irc_session.get_reply(client, expect_code = replies.RPL_WELCOME, expect_nick=&quot;user1&quot;, expect_nparams = 1)<br/><br/>tests/chirc/tests/test_connection.py:104: <br/>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ <br/><br/>self = &lt;chirc.tests.common.IRCSession object at 0x7f1fdc0dc978&gt;<br/>client = &lt;chirc.client.ChircClient object at 0x7f1fdc4b2550&gt;<br/>expect_code = &#x27;001&#x27;, expect_nick = &#x27;user1&#x27;, expect_nparams = 1<br/>expect_short_params = None, long_param_re = None, long_param_values = None<br/>expect_timeout = False<br/><br/>    def get_reply(self, client, expect_code = None, expect_nick = None, expect_nparams = None,<br/>                  expect_short_params = None, long_param_re = None, long_param_values = None,<br/>                  expect_timeout = False):<br/>        try:<br/>            msg = client.get_message()<br/>    <br/>            if expect_timeout:<br/>                pytest.fail(&quot;Was not expecting a reply, but got one:\n&quot; + msg.raw(bookends=True))<br/>        except EOFError:<br/>            pytest.fail(&quot;Server closed connection unexpectedly. Possible segfault in server?&quot;)<br/>        except ReplyTimeoutException as rte:<br/>            if expect_timeout:<br/>                return None<br/>    <br/>            if len(rte.bytes_received) == 0:<br/>                failmsg = &quot;Expected a reply but got none (no bytes received)&quot;<br/>            else:<br/>                failmsg = &quot;Expected a reply but did not get valid reply terminated with \\r\\n. Bytes received:\n|||{}|||&quot;.format(rte.bytes_received)<br/>&gt;           pytest.fail(failmsg)<br/><span class="error">E           Failed: Expected a reply but got none (no bytes received)</span><br/><br/>tests/chirc/tests/common.py:354: Failed<br/>---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... </div></td></tr></tbody>
       <tbody class="skipped results-table-row">
         <tr>
           <td class="col-result">Skipped</td>
@@ -747,7 +904,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Skipped</td>
           <td class="col-name">tests/chirc/tests/test_channel.py::TestTOPIC::()::test_topic01::setup</td>
-          <td class="col-duration">0.01</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -774,7 +931,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Skipped</td>
           <td class="col-name">tests/chirc/tests/test_channel.py::TestTOPIC::()::test_topic04::setup</td>
-          <td class="col-duration">0.01</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -1674,7 +1831,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Skipped</td>
           <td class="col-name">tests/chirc/tests/test_modes.py::TestMODE::()::test_channel_mode16::setup</td>
-          <td class="col-duration">0.00</td>
+          <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -1881,7 +2038,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Skipped</td>
           <td class="col-name">tests/chirc/tests/test_modes.py::TestPermissions::()::test_permissions_topic1::setup</td>
-          <td class="col-duration">0.01</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -2079,7 +2236,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Skipped</td>
           <td class="col-name">tests/chirc/tests/test_privmsg.py::TestPRIVMSG::()::test_privmsg_multiple2::setup</td>
-          <td class="col-duration">0.00</td>
+          <td class="col-duration">0.01</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -2142,7 +2299,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Skipped</td>
           <td class="col-name">tests/chirc/tests/test_privmsg.py::TestNOTICE::()::test_notice::setup</td>
-          <td class="col-duration">0.01</td>
+          <td class="col-duration">0.00</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -2375,6 +2532,15 @@ CUR BUFFER =
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
+          <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages3</td>
+          <td class="col-duration">0.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">---------------------------- Captured stderr setup -----------------------------<br/>Waiting for a connection... </div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
           <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages4</td>
           <td class="col-duration">0.10</td>
           <td class="col-links"></td></tr>
@@ -2430,7 +2596,7 @@ CUR BUFFER =
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing3</td>
-          <td class="col-duration">0.51</td>
+          <td class="col-duration">0.50</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
