@@ -473,7 +473,7 @@ int main(int argc, char *argv[])
             perror("Socket recv() failed");
             close(serverSocket);
             close(clientSocket);
-            exit(-1);
+            exit(0);
         }
 
         iw = parse_messages(incoming_msg, buffer);
