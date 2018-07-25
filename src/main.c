@@ -180,6 +180,15 @@ void fill_msg(char* outgoing_msg, state* s, struct sockaddr_in server, struct so
     return;
 }
 
+void fill_msg_test(char* outgoing_msg, state* s)
+{
+    printf("IN FILL MESG\n");
+    printf("outgoing msg should be empty... it is %s\n", outgoing_msg);
+    printf("NICK: %s, USER NICK: %s\n", s->nick, s->user_nick);
+    sprintf(outgoing_msg, ":001 %s :Welcome to the Internet Relay Network %s!%s@\r\n", s->nick, s->nick, s->user_nick);
+    return;
+}
+
 int ready_state(state* s)
 {
     if(s->nick != NULL && s-> user_nick != NULL){
@@ -279,7 +288,7 @@ void test_loop(char** messages, int num_messages){
     current_state->nick = NULL;
     current_state->user_nick = NULL;
 
-    for(int i = 0; i < num_messages; i++)
+    for(int i = 0; i < num_messages; i++){
         printf("CUR BUFFER = %s\n", buffer);
         iw = NULL;
         memset(incoming_msg, 0, 512);
@@ -291,7 +300,7 @@ void test_loop(char** messages, int num_messages){
             process_messages(iw, current_state);
             print_state(current_state);
             if(ready_state(current_state) == 1){
-                fill_msg(incoming_msg, current_state, serverAddr, clientAddr);
+                fill_msg_test(incoming_msg, current_state);
                 printf("SENDING MESSAGE: %s\n", incoming_msg);
             }
         }
