@@ -115,12 +115,18 @@ irc_wrapper* parse_messages(char *string, char *buffer)
     char* tmp = NULL;
     char* tmp_buf;
     int numMessages = numFullMessages(string);
+    int at_end = 0;
     printf("NUM FULL MESSAGES = %d\n", numMessages);
     int starting_null = 0;
+    int buf_len = strlen(buffer) - 1;
+    if(buffer[buf_len] == '\r' && string[0] == '\n')
+    {
+        numMessages++;
+    }
     irc_message** messages = NULL;
-    if(numFullMessages > 0)
+    if(numMessages > 0)
         messages = (irc_message**)malloc(sizeof(irc_message*)*numMessages);
-    if(strlen(buffer) > 1){
+    if(strlen(buffer) > 0){
         //incomplete message, fill up buffer
         
         //incoming message starts with null character
@@ -129,28 +135,39 @@ irc_wrapper* parse_messages(char *string, char *buffer)
             strcat(buffer, "\r\n");
         }
         else{
-            tmp = strtok_r(string, "\r\n", &tmp_buf);
-            strcat(buffer, strdup(tmp));
+            tmp = strtok_r(strdup(string), "\r\n", &tmp_buf);
+            if(tmp)
+                strcat(buffer, strdup(tmp));
+            else
+                at_end = 1;
+        }
+        if(numMessages != 0){
+            messages[0] = parse_message(buffer);
+            //flush buffer
+            memset(buffer, 0, 512);
+            int i = 1;
+            while(i < numMessages){
+                if(starting_null == 1){
+                    tmp = strtok_r(strdup(string), "\r\n", &tmp_buf);
+                    starting_null = 0;
+                }
+                else
+                    tmp = strtok_r(NULL, "\r\n", &tmp_buf);
+                messages[i] = parse_message(tmp);
+                i++;
+            }
+            if(at_end == 0)
+                tmp = strtok_r(NULL, "\r\n", &tmp_buf);
+            if(tmp){
+                strcat(buffer, strdup(tmp));
+            }
+        }
+        if(string[strlen(string) - 1] == '\r'){
+            int buf_len = strlen(buffer);
+            buffer[buf_len] = '\r';
         }
         if(numMessages == 0)
             return NULL;
-        messages[0] = parse_message(buffer);
-        //flush buffer
-        memset(buffer, 0, 512);
-        int i = 1;
-        while(i < numMessages){
-            if(starting_null == 1){
-                tmp = strtok_r(string, "\r\n", &tmp_buf);
-                starting_null = 0;
-            }
-            else
-                tmp = strtok_r(NULL, "\r\n", &tmp_buf);
-            messages[i] = parse_message(tmp);
-            i++;
-        }
-        tmp = strtok_r(NULL, "\r\n", &tmp_buf);
-        if(tmp)
-            strcat(buffer, strdup(tmp));
     }
     else{
         tmp = strtok_r(string, "\r\n", &tmp_buf);
