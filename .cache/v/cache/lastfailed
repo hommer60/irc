@@ -1,8 +1,7 @@
 {
-  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing1": true,
-  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing2": true,
-  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_nick_user_parsing3": true,
+  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_no_unexpected_welcome1": true,
+  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_no_unexpected_welcome2": true,
+  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages2": true,
   "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages5": true,
-  "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_partitioned_messages7": true,
   "tests/chirc/tests/test_connection.py::TestBasicConnection::()::test_connect_simple1": true
 }
