@@ -86,6 +86,9 @@ irc_message* parse_message(char *string)
         payload = strdup(tmp);
         payload = strtok(payload, "\r\n");
     }
+    else{
+        args = strtok(args, "\r\n");
+    }
     tmp = NULL;
     tmp = strtok(args, " ");
     cmd = strdup(tmp);
