@@ -455,7 +455,7 @@ int main(int argc, char *argv[])
         }
 
         iw = parse_messages(incoming_msg, buffer);
-        print_irc_wrapper(iw);
+        //print_irc_wrapper(iw);
         if(iw != NULL){
             memset(incoming_msg, 0, 512);
             process_messages(iw, current_state);
@@ -472,7 +472,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        free_irc_wrapper(iw);
+        //free_irc_wrapper(iw);
     }
 
 
