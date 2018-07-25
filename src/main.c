@@ -270,115 +270,7 @@ void print_irc_wrapper(irc_wrapper* iw)
     print_irc(iw->messages, iw->num_messages);
 }
 
-int main(int argc, char *argv[])
-{
-    int opt;
-    char *port = "6667", *passwd = NULL;
-    int verbosity = 0;
-
-    while ((opt = getopt(argc, argv, "p:o:vqh")) != -1)
-        switch (opt)
-        {
-        case 'p':
-            port = strdup(optarg);
-            break;
-        case 'o':
-            passwd = strdup(optarg);
-            break;
-        case 'v':
-            verbosity++;
-            break;
-        case 'q':
-            verbosity = -1;
-            break;
-        case 'h':
-            fprintf(stderr, "Usage: chirc -o PASSWD [-p PORT] [(-q|-v|-vv)]\n");
-            exit(0);
-            break;
-        default:
-            fprintf(stderr, "ERROR: Unknown option -%c\n", opt);
-            exit(-1);
-        }
-
-    if (!passwd)
-    {
-        fprintf(stderr, "ERROR: You must specify an operator password\n");
-        exit(-1);
-    }
-
-    /* Set logging level based on verbosity */
-    switch(verbosity)
-    {
-    case -1:
-        chirc_setloglevel(QUIET);
-        break;
-    case 0:
-        chirc_setloglevel(INFO);
-        break;
-    case 1:
-        chirc_setloglevel(DEBUG);
-        break;
-    case 2:
-        chirc_setloglevel(TRACE);
-        break;
-    default:
-        chirc_setloglevel(INFO);
-        break;
-    }
-
-    int serverSocket;
-    int clientSocket;
-
-    struct sockaddr_in serverAddr, clientAddr;
-
-    int yes = 1;
-
-    socklen_t sinSize = sizeof(struct sockaddr_in);
-
-    memset(&serverAddr, 0, sizeof(serverAddr));
-
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(atoi(port));
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-
-    serverSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-
-    if(serverSocket == -1)
-    {
-        perror("Could not open socket");
-        exit(-1);
-    }
-
-    if(setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
-    {
-        perror("Socket setsockopt() failed");
-        close(serverSocket);
-        exit(-1);
-    }
-
-    if(bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1)
-    {
-        perror("Socket bind() failed");
-        close(serverSocket);
-        exit(-1);
-    }
-
-    if(listen(serverSocket, 5) == -1)
-    {
-        perror("Socket listen() failed");
-        close(serverSocket);
-        exit(-1);
-    }
-
-    fprintf(stderr, "Waiting for a connection... ");
-
-    if((clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &sinSize)) == -1)
-    {
-        perror("Socket accept() failed");
-        close(serverSocket);
-        exit(-1);
-    }
-
+void test_loop(char** messages, int num_messages){
     char incoming_msg[512];
     char buffer[512];
     memset(buffer, 0, 512);
@@ -387,23 +279,11 @@ int main(int argc, char *argv[])
     current_state->nick = NULL;
     current_state->user_nick = NULL;
 
-    while(1){
-
+    for(int i = 0; i < num_messages; i++)
         printf("CUR BUFFER = %s\n", buffer);
         iw = NULL;
         memset(incoming_msg, 0, 512);
-        if(read(clientSocket, incoming_msg, 512) <= 0)
-        {
-            perror("Socket recv() failed");
-            close(serverSocket);
-            close(clientSocket);
-            exit(-1);
-        }
-        // int end = strlen(incoming_msg);
-        // printf("end size is %d\n", end);
-        // if(end > 1)
-        //     incoming_msg[end-2] = '\0';
-        // incoming_msg[end-2] = '\0';
+        strncpy(incoming_msg, messages[i], strlen(messages[i]));
         iw = parse_messages(incoming_msg, buffer);
         print_irc_wrapper(iw);
         if(iw != NULL){
@@ -412,23 +292,183 @@ int main(int argc, char *argv[])
             print_state(current_state);
             if(ready_state(current_state) == 1){
                 fill_msg(incoming_msg, current_state, serverAddr, clientAddr);
-                if(send(clientSocket, incoming_msg, strlen(incoming_msg), 0) <= 0)
-                {
-                    perror("Socket send() failed");
-                    close(serverSocket);
-                    close(clientSocket);
-                    exit(-1);
-                }
+                printf("SENDING MESSAGE: %s\n", incoming_msg);
             }
         }
-
         free_irc_wrapper(iw);
     }
+}
 
-
-    close(clientSocket);
-    fprintf(stderr, "Message sent!\n");
-    close(serverSocket);
+int main(int argc, char *argv[])
+{
+    char** test_messages = (char**)malloc(sizeof(char*)*4);
+    char msg1[512] = "NICK nick4";
+    char msg2[512] = "2\r\n";
+    char msg3[512] = "USER user4";
+    char msg4[512] = "2 * * :User Forty Two\r\n";
+    test_messages[0] = msg1;
+    test_messages[1] = msg2;
+    test_messages[2] = msg3;
+    test_messages[3] = msg4;
+    test_loop(test_messages, 4);
     return 0;
 }
+
+// int main(int argc, char *argv[])
+// {
+//     int opt;
+//     char *port = "6667", *passwd = NULL;
+//     int verbosity = 0;
+
+//     while ((opt = getopt(argc, argv, "p:o:vqh")) != -1)
+//         switch (opt)
+//         {
+//         case 'p':
+//             port = strdup(optarg);
+//             break;
+//         case 'o':
+//             passwd = strdup(optarg);
+//             break;
+//         case 'v':
+//             verbosity++;
+//             break;
+//         case 'q':
+//             verbosity = -1;
+//             break;
+//         case 'h':
+//             fprintf(stderr, "Usage: chirc -o PASSWD [-p PORT] [(-q|-v|-vv)]\n");
+//             exit(0);
+//             break;
+//         default:
+//             fprintf(stderr, "ERROR: Unknown option -%c\n", opt);
+//             exit(-1);
+//         }
+
+//     if (!passwd)
+//     {
+//         fprintf(stderr, "ERROR: You must specify an operator password\n");
+//         exit(-1);
+//     }
+
+//     /* Set logging level based on verbosity */
+//     switch(verbosity)
+//     {
+//     case -1:
+//         chirc_setloglevel(QUIET);
+//         break;
+//     case 0:
+//         chirc_setloglevel(INFO);
+//         break;
+//     case 1:
+//         chirc_setloglevel(DEBUG);
+//         break;
+//     case 2:
+//         chirc_setloglevel(TRACE);
+//         break;
+//     default:
+//         chirc_setloglevel(INFO);
+//         break;
+//     }
+
+//     int serverSocket;
+//     int clientSocket;
+
+//     struct sockaddr_in serverAddr, clientAddr;
+
+//     int yes = 1;
+
+//     socklen_t sinSize = sizeof(struct sockaddr_in);
+
+//     memset(&serverAddr, 0, sizeof(serverAddr));
+
+//     serverAddr.sin_family = AF_INET;
+//     serverAddr.sin_port = htons(atoi(port));
+//     serverAddr.sin_addr.s_addr = INADDR_ANY;
+
+//     serverSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+//     if(serverSocket == -1)
+//     {
+//         perror("Could not open socket");
+//         exit(-1);
+//     }
+
+//     if(setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
+//     {
+//         perror("Socket setsockopt() failed");
+//         close(serverSocket);
+//         exit(-1);
+//     }
+
+//     if(bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1)
+//     {
+//         perror("Socket bind() failed");
+//         close(serverSocket);
+//         exit(-1);
+//     }
+
+//     if(listen(serverSocket, 5) == -1)
+//     {
+//         perror("Socket listen() failed");
+//         close(serverSocket);
+//         exit(-1);
+//     }
+
+//     fprintf(stderr, "Waiting for a connection... ");
+
+//     if((clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &sinSize)) == -1)
+//     {
+//         perror("Socket accept() failed");
+//         close(serverSocket);
+//         exit(-1);
+//     }
+
+//     char incoming_msg[512];
+//     char buffer[512];
+//     memset(buffer, 0, 512);
+//     irc_wrapper* iw = NULL;
+//     state* current_state = (state *)malloc(sizeof(state));
+//     current_state->nick = NULL;
+//     current_state->user_nick = NULL;
+
+//     while(1){
+
+//         printf("CUR BUFFER = %s\n", buffer);
+//         iw = NULL;
+//         memset(incoming_msg, 0, 512);
+//         if(read(clientSocket, incoming_msg, 512) <= 0)
+//         {
+//             perror("Socket recv() failed");
+//             close(serverSocket);
+//             close(clientSocket);
+//             exit(-1);
+//         }
+
+//         iw = parse_messages(incoming_msg, buffer);
+//         print_irc_wrapper(iw);
+//         if(iw != NULL){
+//             memset(incoming_msg, 0, 512);
+//             process_messages(iw, current_state);
+//             print_state(current_state);
+//             if(ready_state(current_state) == 1){
+//                 fill_msg(incoming_msg, current_state, serverAddr, clientAddr);
+//                 if(send(clientSocket, incoming_msg, strlen(incoming_msg), 0) <= 0)
+//                 {
+//                     perror("Socket send() failed");
+//                     close(serverSocket);
+//                     close(clientSocket);
+//                     exit(-1);
+//                 }
+//             }
+//         }
+
+//         free_irc_wrapper(iw);
+//     }
+
+
+//     close(clientSocket);
+//     fprintf(stderr, "Message sent!\n");
+//     close(serverSocket);
+//     return 0;
+// }
 
