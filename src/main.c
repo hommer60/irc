@@ -331,21 +331,6 @@ void test_loop(char** messages, int num_messages){
     }
 }
 
-// int main(int argc, char *argv[])
-// {
-//     char** test_messages = (char**)malloc(sizeof(char*)*4);
-//     char msg1[512] = "NICK nick4";
-//     char msg2[512] = "2\r\n";
-//     char msg3[512] = "USER user4";
-//     char msg4[512] = "2 * * :User Forty Two\r\n";
-//     test_messages[0] = msg1;
-//     test_messages[1] = msg2;
-//     test_messages[2] = msg3;
-//     test_messages[3] = msg4;
-//     test_loop(test_messages, 4);
-//     return 0;
-// }
-
 int main(int argc, char *argv[])
 {
     int opt;
@@ -496,8 +481,7 @@ int main(int argc, char *argv[])
         }
 
     }
-
-
+    
     close(clientSocket);
     fprintf(stderr, "Message sent!\n");
     close(serverSocket);
