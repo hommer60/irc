@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <netdb.h>
+#include <arpa/inet.h>
 
 #include "irc.h"
 #include "messenger.h"
